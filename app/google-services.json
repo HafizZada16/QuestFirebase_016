@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "362482087392",
+    "project_id": "my-firebase-cdb45",
+    "storage_bucket": "my-firebase-cdb45.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362482087392:android:4b9376e4383533c1eaa785",
+        "android_client_info": {
+          "package_name": "com.example.questfirebase_016"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADNeEHONGGI0koeADykr6vg6sQuZvMkSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
