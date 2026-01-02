@@ -1,28 +1,19 @@
 package com.example.questfirebase_016.viewmodel
 
-data class Siswa(
-    val id: Long = 0,
-    val nama: String = "",
-    val alamat: String = "",
-    val telpon: String = ""
-)
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.questfirebase_016.repositori.AplikasiDataSiswa
 
-data class DetailSiswa(
-    val id: Long = 0,
-    val nama: String = "",
-    val alamat: String = "",
-    val telpon: String = ""
-)
+fun CreationExtras.aplikasiDataSiswa(): AplikasiDataSiswa = (
+        this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
+                AplikasiDataSiswa
+        )
 
-fun DetailSiswa.toDataSiswa(): Siswa = Siswa(id, nama, alamat, telpon)
-fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(id, nama, alamat, telpon)
-
-data class UIStateSiswa(
-    val detailSiswa: DetailSiswa = DetailSiswa(),
-    val isEntryValid: Boolean = false
-)
-
-fun Siswa.toUIStateSiswa(isEntryValid: Boolean = false): UIStateSiswa = UIStateSiswa(
-    detailSiswa = this.toDetailSiswa(),
-    isEntryValid = isEntryValid
-)
+object PenyediaViewModel {
+    val Factory = viewModelFactory {
+        initializer { HomeViewModel(aplikasiDataSiswa().container.repositorySiswa) }
+        initializer { EntryViewModel(aplikasiDataSiswa().container.repositorySiswa) }
+    }
+}
