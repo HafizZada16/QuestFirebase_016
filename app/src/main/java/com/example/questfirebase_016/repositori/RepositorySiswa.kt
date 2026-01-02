@@ -1,6 +1,6 @@
 package com.example.questfirebase_016.repositori
 
-import com.example.questfirebase_016.viewmodel.Siswa
+import com.example.questfirebase_016.modeldata.Siswa
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
