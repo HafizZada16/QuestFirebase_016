@@ -47,7 +47,6 @@ fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    onDetailClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -74,29 +73,26 @@ fun HomeScreen(
         },
     ) { innerPadding ->
         HomeStatus(
-            homeUiState = viewModel.statusUiSiswa,
+            statusUiState = viewModel.statusUiSiswa,
             retryAction = viewModel::loadSiswa,
             modifier = Modifier.padding(innerPadding),
-            onDetailClick = onDetailClick,
+            onSiswaClick = navigateToItemUpdate,
         )
     }
 }
 
 @Composable
 fun HomeStatus(
-    homeUiState: StatusUiSiswa,
+    statusUiState: StatusUiSiswa,
+    onSiswaClick: (Int) -> Unit,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
-    onDetailClick: (String) -> Unit
 ) {
-    when (homeUiState) {
+    when (statusUiState) {
         is StatusUiSiswa.Loading -> OnLoading(modifier = modifier.fillMaxSize())
-        is StatusUiSiswa.Success -> ListSiswa(
-            siswaList = homeUiState.siswa,
-            modifier = modifier.fillMaxWidth(),
-            onItemClick = { onDetailClick(it.id.toString()) }
-        )
-        is StatusUiSiswa.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
+        is StatusUiSiswa.Success -> DaftarSiswa(itemSiswa = statusUiState.siswa,
+            onSiswaClick = { onSiswaClick(it.id.toInt()) })
+        is StatusUiSiswa.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
 
@@ -110,7 +106,7 @@ fun OnLoading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier) {
+fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -127,25 +123,25 @@ fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ListSiswa(
-    siswaList: List<Siswa>,
+fun DaftarSiswa(
+    itemSiswa: List<Siswa>,
     modifier: Modifier = Modifier,
-    onItemClick: (Siswa) -> Unit
+    onSiswaClick: (Siswa) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
-        items(items = siswaList, key = { it.id }) { person ->
-            SiswaCard(
+        items(items = itemSiswa, key = { it.id }) { person ->
+            ItemSiswa(
                 siswa = person,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onItemClick(person) }
+                    .clickable { onSiswaClick(person) }
             )
         }
     }
 }
 
 @Composable
-fun SiswaCard(
+fun ItemSiswa(
     siswa: Siswa,
     modifier: Modifier = Modifier
 ) {
@@ -169,11 +165,11 @@ fun SiswaCard(
                     imageVector = Icons.Default.Phone,
                     contentDescription = null,
                 )
+                Text(
+                    text = siswa.telpon,
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
-            Text(
-                text = siswa.telpon,
-                style = MaterialTheme.typography.titleMedium
-            )
             Text(
                 text = siswa.alamat,
                 style = MaterialTheme.typography.titleMedium
