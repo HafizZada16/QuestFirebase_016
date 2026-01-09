@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.questfirebase_016.modeldata.DetailSiswa
 import com.example.questfirebase_016.modeldata.UIStateSiswa
 import com.example.questfirebase_016.modeldata.toDataSiswa
+import com.example.questfirebase_016.modeldata.toUIStateSiswa
 import com.example.questfirebase_016.repositori.RepositorySiswa
 import com.example.questfirebase_016.view.route.DestinasiDetail
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ RepositorySiswa): ViewModel() {
     init {
         viewModelScope.launch {
             uiStateSiswa = repositorySiswa.getSatuSiswa(idSiswa)!!
-                .toUiStateSiswa(true)
+                .toUIStateSiswa(true)
         }
     }
 
