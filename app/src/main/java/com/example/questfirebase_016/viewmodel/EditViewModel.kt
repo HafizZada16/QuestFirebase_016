@@ -14,8 +14,7 @@ import com.example.questfirebase_016.view.route.DestinasiDetail
 import kotlinx.coroutines.launch
 
 class EditViewModel(savedStateHandle: SavedStateHandle, private val repositorySiswa:
-RepositorySiswa
-): ViewModel() {
+RepositorySiswa): ViewModel() {
     var uiStateSiswa by mutableStateOf(UIStateSiswa())
         private set
 
