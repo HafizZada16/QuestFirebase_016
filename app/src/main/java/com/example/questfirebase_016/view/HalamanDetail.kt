@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,16 +37,19 @@ fun DetailSiswaScreen(
             )
         },
         floatingActionButton = {
+            val uiState = viewModel.statusUIDetail
             FloatingActionButton(
-                onClick = { navigateToEditItem(viewModel.statusUIDetail.let {
-                    if (it is StatusUIDetail.Success) it.satusiswa?.id.toString() else ""
-                }) },
+                onClick = {
+                    when(uiState){ is StatusUIDetail.Success ->
+                        navigateToEditItem(uiState.satusiswa!!.id.toInt()) else->{}
+                    }
+                },
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.edit_siswa)
+                    contentDescription = stringResource(R.string.update)
                 )
             }
         },
