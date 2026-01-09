@@ -51,7 +51,12 @@ fun DetailSiswaScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-
-
+        BodyDetailSiswa(
+            statusUIDetail = viewModel.statusUIDetail,
+            retryAction = viewModel::getSatuSiswa,
+            onDeleteClick = {
+            },
+            modifier = Modifier.padding(innerPadding)
+        )
     }
 }
